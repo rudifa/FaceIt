@@ -8,11 +8,23 @@
 
 import UIKit
 
+@IBDesignable
 class FaceView: UIView {
 
+    @IBInspectable
     var scale: CGFloat = 0.9
+
+    @IBInspectable
     var eyesOpen = false
+
+    @IBInspectable
     var mouthCurvature = 1.0 // 1.0 is full smile, -1.0 is full frown
+
+    @IBInspectable
+    var lineWidth: CGFloat = 5.0
+
+    @IBInspectable
+    var lineColor: UIColor = .blue
 
     private var skullRadius: CGFloat {
         return min(bounds.width, bounds.height) / 2 * scale
@@ -45,7 +57,7 @@ class FaceView: UIView {
             path.move(to: CGPoint(x: eyeCenter.x - eyeRadius, y: eyeCenter.y))
             path.addLine(to: CGPoint(x: eyeCenter.x + eyeRadius, y: eyeCenter.y))
         }
-        path.lineWidth = 5.0
+        path.lineWidth = lineWidth
         return path
     }
 
@@ -66,9 +78,10 @@ class FaceView: UIView {
         let cp1 = CGPoint(x: start.x + mouthRect.width / 3, y: start.y + smileOffset)
         let cp2 = CGPoint(x: end.x - mouthRect.width / 3, y: start.y + smileOffset)
 
-        let path = UIBezierPath(rect: mouthRect)
+        let path = UIBezierPath()
         path.move(to: start)
         path.addCurve(to: end, controlPoint1: cp1, controlPoint2: cp2)
+        path.lineWidth = lineWidth
         return path
     }
 
@@ -78,13 +91,13 @@ class FaceView: UIView {
 
     private func pathForSkull() -> UIBezierPath {
         let path = pathForCircle(center: skullCenter, radius: skullRadius)
-        path.lineWidth = 5.0
+        path.lineWidth = lineWidth
         return path
     }
 
     override func draw(_ rect: CGRect) {
 
-        UIColor.blue.set()
+        lineColor.set()
         pathForSkull().stroke()
         pathForEye(.left).stroke()
         pathForEye(.right).stroke()
