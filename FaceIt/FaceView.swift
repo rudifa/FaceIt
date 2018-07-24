@@ -15,10 +15,10 @@ class FaceView: UIView {
     var scale: CGFloat = 0.9
 
     @IBInspectable
-    var eyesOpen = false
+    var eyesOpen: Bool = false
 
     @IBInspectable
-    var mouthCurvature = 1.0 // 1.0 is full smile, -1.0 is full frown
+    var mouthCurvature: CGFloat = 1.0 // 1.0 is full smile, -1.0 is full frown
 
     @IBInspectable
     var lineWidth: CGFloat = 5.0
